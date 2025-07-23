@@ -40,13 +40,13 @@ export default function ReserveButton({
     gsap.set(iconEl, { opacity: 0, scale: 0 });
 
     // Measure final width
-    const finalWidth = btn.scrollWidth;
+    
 
     const tl = gsap.timeline();
 
     tl.to(btn, {
       opacity: 1,
-      width: finalWidth,
+     
       duration: 0.6,
       ease: "power3.out",
     })
@@ -79,8 +79,9 @@ export default function ReserveButton({
         transition-colors duration-200 
         rounded-full 
         shadow-sm border border-gray-300
-        px-1 pl-5
-        min-w-[100px] sm:min-w-[140px] md:min-w-[160px] lg:h-13 md:h-11 h-10
+        px-1 md:pl-5 pl-2
+    
+        min-w-[80px]  md:min-w-[160px] lg:h-13 md:h-12 sm:h-8 h-7 mt-2 
         group
         overflow-hidden
         opacity-0 w-0
@@ -89,15 +90,15 @@ export default function ReserveButton({
     >
       <span
         ref={textRef}
-        className="text-gray-800 font-medium text-sm sm:text-base md:text-lg mr-2 sm:mr-3 md:mr-4"
+        className="text-gray-800 font-medium text-[9px] sm:text-[10px] md:text-lg  sm:mr-3 md:mr-4"
       >
         {text}
       </span>
       <div
         ref={iconWrapperRef}
-        className="bg-gray-800 hover:bg-gray-900 group-disabled:bg-gray-400 transition-colors duration-200 rounded-full p-1.5 sm:p-2 flex-shrink-0"
+        className="bg-gray-800 hover:bg-gray-900 group-disabled:bg-gray-400 transition-colors duration-200 rounded-full flex-shrink-0"
       >
-        <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f4efe7] " />
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-8 md:h-8 size-6 text-[#f4efe7] " />
       </div>
     </button>
   );
