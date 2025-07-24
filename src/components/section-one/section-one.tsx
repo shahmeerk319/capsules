@@ -8,7 +8,7 @@ import TextType from "../animation/text-type";
 import BlurText from "../animation/text-type";
 import { AlignJustify, ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/button";
-import ShinyText from "../animation/text-type";
+import ShinyText from "../animation/shiny-text";
 
 export default function SectionOne() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -74,7 +74,7 @@ export default function SectionOne() {
       )}
       {showContent && (
 
-        <div className="absolute bottom-0 mb-[2vw] lg:mb-10 w-full px-[2vw] lg:px-5 flex justify-between">
+        <div className="absolute bottom-0 mb-[1vw]  w-full px-[2vw] lg:px-5 flex justify-between">
           <div className="">
 
             <BlurText
@@ -102,18 +102,23 @@ export default function SectionOne() {
           <ReserveButton icon={AlignJustify}
             text="Menu"
             textClassName="lg:text-[16px]"
+            iconClass="lg:w-5 lg:h-5 "
+            iconBtnClass="lg:p-3"
           />
 
 
-
-
-
-
+<ShinyText
+  text={
+    <>
+      Spend unforgettable and remarkable time <br />
+      in the Californian desert with—Capsules.
+    </>
+  }
+/>
 
         </div>
-      )
-      }
-    </section >
+      )}
+    </section>
   );
 }
 // <div className="absolute bottom-0 mb-[2vw] lg:mb-10 w-full px-[2vw] lg:px-5 flex justify-between">
