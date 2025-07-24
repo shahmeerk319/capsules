@@ -10,6 +10,7 @@ interface ReserveButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
+  textClassName?: string;
 }
 
 export default function ReserveButton({
@@ -18,6 +19,7 @@ export default function ReserveButton({
   onClick,
   disabled = false,
   className = "",
+  textClassName = "",
 }: ReserveButtonProps) {
   const btnRef = useRef<HTMLButtonElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
@@ -30,17 +32,12 @@ export default function ReserveButton({
 
     if (!btn || !textEl || !iconEl) return;
 
-    // Remove initial CSS hidden classes (if any) so GSAP controls visibility
     btn.classList.remove("opacity-0");
     btn.classList.remove("w-0");
 
-    // First, set opacity and width to 0
     gsap.set(btn, { opacity: 0, width: 0 });
     gsap.set(textEl, { opacity: 0, x: -10 });
     gsap.set(iconEl, { opacity: 0, scale: 0 });
-
-    // Measure final width
-    
 
     const tl = gsap.timeline();
 
@@ -79,9 +76,8 @@ export default function ReserveButton({
         transition-colors duration-200 
         rounded-full 
         shadow-sm border border-gray-300
-        px-1 md:pl-5 pl-2
-    
-        min-w-[80px]  md:min-w-[160px] lg:h-13 md:h-12 sm:h-8 h-7 mt-2 
+        px-1 md:pl-5 pl-2 
+        min-w-[80px]  md:min-w-[130px] lg:h-13 md:h-12 sm:h-8 h-7 mt-2 
         group
         overflow-hidden
         opacity-0 w-0
@@ -90,16 +86,16 @@ export default function ReserveButton({
     >
       <span
         ref={textRef}
-        className="text-gray-800 font-medium text-[9px] sm:text-[10px] md:text-lg  sm:mr-3 md:mr-4"
+        className={`text-gray-800 font-medium text-[9px] sm:text-[10px] md:text-[15px]  sm:mr-1 ${textClassName}`}
       >
         {text}
       </span>
       <div
         ref={iconWrapperRef}
-        className="bg-gray-800 hover:bg-gray-900 group-disabled:bg-gray-400 transition-colors duration-200 rounded-full flex-shrink-0"
+        className="bg-gray-800 hover:bg-gray-900 group-disabled:bg-gray-400 transition-colors duration-200 rounded-full flex-shrink-0 p-1"
       >
         <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-8 md:h-8 size-6 text-[#f4efe7] " />
       </div>
-    </button>
+    </button> 
   );
 }
