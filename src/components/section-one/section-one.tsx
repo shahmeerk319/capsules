@@ -9,8 +9,10 @@ import BlurText from "../animation/text-type";
 import { AlignJustify, ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/button";
 import ShinyText from "../animation/shiny-text";
+import ScrollReveal from "../animation/scroll-reveal";
+import SectionTwo from "../section-two/section-two";
 
-export default function SectionOne() {
+export default function Page() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [showContent, setShowContent] = useState(false);
 
@@ -37,112 +39,93 @@ export default function SectionOne() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative lg:p-2 h-[90vh] lg:m-2 lg:rounded-4xl rounded m-1 overflow-y-hidden overflow-x-hidden opacity-0"
-      style={{
-        backgroundImage: `url(${sectionOneImage.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      {showContent && (
-        <div className="flex justify-between">
-          <h1>
-            <SplitText
-              text="Capsules"
-              className="text-[10vw] lg:text-[160px] font-[500] leading-none"
-              delay={200}
-              duration={1}
-              ease="power3.out"
-              splitType="chars"
-              from={{ opacity: 0, y: 40 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="-100px"
-              textAlign="center"
-            />
-          </h1>
-          <ReserveButton icon={ArrowUpRight}
-            text="Reserve"
-            className="text-[9px]"
-          />
-
-
-        </div>
-      )}
-      {showContent && (
-
-        <div className="absolute bottom-0 mb-[1vw]  w-full px-[2vw] lg:px-5 flex justify-between">
-          <div className="">
-
-            <BlurText
-              text={`Closer to`}
-              delay={150}
-              animateBy="words"
-              direction="top"
-              className="text-2xl "
-            />
-            <BlurText
-              text={`Nature—Closer`}
-              delay={150}
-              animateBy="words"
-              direction="top"
-              className="text-2xl "
-            />
-            <BlurText
-              text={`to Yourself`}
-              delay={150}
-              animateBy="words"
-              direction="top"
-              className="text-2xl"
-            />
-          </div>
-          <ReserveButton icon={AlignJustify}
-            text="Menu"
-            textClassName="lg:text-[16px]"
-            iconClass="lg:w-5 lg:h-5 "
-            iconBtnClass="lg:p-3"
-          />
-
-
-<ShinyText
-  text={
     <>
-      Spend unforgettable and remarkable time <br />
-      in the Californian desert with—Capsules.
-    </>
-  }
-/>
+      <section
+        ref={sectionRef}
+        className="relative lg:p-2 h-[90vh] lg:m-2 lg:rounded-4xl rounded m-1 overflow-y-hidden overflow-x-hidden opacity-0"
+        style={{
+          backgroundImage: `url(${sectionOneImage.src})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {showContent && (
+          <div className="flex justify-between">
+            <h1>
+              <SplitText
+                text="Capsules"
+                className="text-[10vw] lg:text-[160px] font-[500] leading-none"
+                delay={200}
+                duration={1}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 40 }}
+                to={{ opacity: 1, y: 0 }}
+                textAlign="center"
+              />
+            </h1>
+            <ReserveButton icon={ArrowUpRight}
+              text="Reserve"
+              className="text-[9px]"
+            />
 
-        </div>
+
+          </div>
+        )}
+        {showContent && (
+
+         <div className="absolute bottom-0 mb-[1vw] w-full px-[2vw] lg:px-5 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-0">
+  <div className="flex flex-col">
+    <BlurText
+      text={`Closer to`}
+      delay={150}
+      animateBy="words"
+      direction="top"
+      className="text-[4vw] md:text-[2.5vw] lg:text-[1.2vw]"
+    />
+    <BlurText
+      text={`Nature—Closer`}
+      delay={150}
+      animateBy="words"
+      direction="top"
+      className="text-[4vw] md:text-[2.5vw] lg:text-[1.2vw]"
+    />
+    <BlurText
+      text={`to Yourself`}
+      delay={150}
+      animateBy="words"
+      direction="top"
+      className="text-[4vw] md:text-[2.5vw] lg:text-[1.2vw]"
+    />
+  </div>
+
+  <ReserveButton
+    icon={AlignJustify}
+    text="Menu"
+    
+  />
+
+  <ShinyText
+  className="text-[3vw] md:text-[2vw] lg:text-[16px]"
+    text={
+      <>
+        Spend unforgettable and remarkable time <br />
+        in the Californian desert with—Capsules.
+      </>
+    }
+  />
+</div>
+
+        )}
+
+      </section>
+
+      {showContent && (
+        <SectionTwo />
       )}
-    </section>
+
+    </>
   );
 }
-// <div className="absolute bottom-0 mb-[2vw] lg:mb-10 w-full px-[2vw] lg:px-5 flex justify-between">
-//   <div>
-//     <h1 className="text-[4vw] lg:text-[35px] lg:-mt-10 font-semibold leading-tight">
-//       Closer to <br />
-//       Nature-Closer <br />
-//       to Yourself
-//     </h1>
-//   </div>
 
-//   <div >
-//     <Button className="bg-white hover:bg-white rounded-full cursor-pointer py-[2vw] px-[3vw] text-black mt-[1vw] lg:py-6 lg:px-5 lg:mt-5">
-//       Menu{" "}
-//       <span className="bg-[#2a2725] text-white rounded-full flex items-center justify-center ml-[1vw] w-[3vw] h-[3vw] lg:w-8 lg:h-8">
-//         <AlignJustify className="w-[2vw] h-[2vw] lg:w-4 lg:h-4" />
-//       </span>
-//     </Button>
-//   </div>
-
-//   <div className="text-[2vw] lg:text-base">
-//     <p>
-//       Spend unforgettable and remarkable time <br />
-//       in the Californian desert with—Capsules.
-//     </p>
-//   </div>
-// </div>

@@ -128,57 +128,59 @@ export default function ReserveButton({
   }, []);
 
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      ref={btnRef}
+   <button
+  onClick={onClick}
+  disabled={disabled}
+  ref={btnRef}
+  className={cn(`
+    flex items-center justify-between
+    bg-[#f4efe7] hover:bg-[#f4efe7]
+    disabled:bg-gray-100 disabled:cursor-not-allowed
+    transition-colors duration-200 
+    rounded-full shadow-sm border border-gray-300
+    pl-2 md:pl-5
+    min-w-[82px] md:min-w-[130px]
+   h-8 md:h-12 lg:h-13
+    mt-2
+    group overflow-hidden
+    opacity-0 w-0
+    ${className}
+  `)}
+>
+  <span
+    ref={textRef}
+    className={cn(`
+      text-gray-800 font-medium
+      text-[10px] md:text-[15px]
+      transition-transform duration-300 ease-out 
+      group-hover:-translate-x-0.5
+      ${textClassName}
+    `)}
+  >
+    {text}
+  </span>
+
+  <div
+    ref={iconWrapperRef}
+    className={cn(`
+      bg-gray-800 hover:bg-gray-900 
+      group-disabled:bg-gray-400 
+      transition-all duration-300 ease-out 
+      rounded-full flex-shrink-0 p-1 mr-1 sm:mr-0 md:mr-1
+      ${iconBtnClass}
+    `)}
+  >
+    <Icon
       className={cn(`
-        flex items-center justify-between
-        bg-[#f4efe7] hover:bg-[#f4efe7] 
-        disabled:bg-gray-100 disabled:cursor-not-allowed
-        transition-colors duration-200 
-        rounded-full 
-        shadow-sm border border-gray-300
-        px-1 md:pl-5 pl-2 
-        min-w-[80px]  md:min-w-[130px] lg:h-13 md:h-12 sm:h-8 h-7 mt-2 
-        group
-        overflow-hidden
-        opacity-0 w-0
-        ${className}
+        w-[3vw] h-[3vw] sm:w-5 sm:h-5 md:w-7 md:h-7
+        text-[#f4efe7] 
+        transition-transform duration-300 ease-out 
+        group-hover:translate-x-0.5 
+        ${iconClass}
       `)}
-    >
-      <span
-        ref={textRef}
-        className={cn(`
-          text-gray-800 font-medium 
-          text-[9px] sm:text-[10px] md:text-[15px] sm:mr-1
-          transition-transform duration-300 ease-out 
-          group-hover:-translate-x-0.5
-          ${textClassName}
-        `)}
-      >
-        {text}
-      </span>
-      <div
-        ref={iconWrapperRef}
-        className={cn(`
-          bg-gray-800 hover:bg-gray-900 
-          group-disabled:bg-gray-400 
-          transition-all duration-300 ease-out 
-          rounded-full flex-shrink-0 p-1 
-          ${iconBtnClass}
-        `)}
-      >
-        <Icon
-          className={cn(`
-            w-4 h-4 sm:w-5 sm:h-5 md:w-8 md:h-8 size-6 
-            text-[#f4efe7] 
-            transition-transform duration-300 ease-out 
-            group-hover:translate-x-0.5 
-            ${iconClass}
-          `)}
-        />
-      </div>
-    </button>
+    />
+  </div>
+</button>
+
   );
 }

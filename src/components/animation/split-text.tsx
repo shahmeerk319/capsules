@@ -2,10 +2,9 @@
 
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText as GSAPSplitText } from "gsap/SplitText";
 
-gsap.registerPlugin(ScrollTrigger, GSAPSplitText);
+gsap.registerPlugin(GSAPSplitText);
 
 export interface SplitTextProps {
   text: string;
@@ -13,11 +12,9 @@ export interface SplitTextProps {
   delay?: number;
   duration?: number;
   ease?: string | ((t: number) => number);
-  splitType?: "chars" | "words" | "lines" | "words, chars";
+  splitType?: "chars" | "words" | "lines";
   from?: gsap.TweenVars;
   to?: gsap.TweenVars;
-  threshold?: number;
-  rootMargin?: string;
   textAlign?: React.CSSProperties["textAlign"];
   onLetterAnimationComplete?: () => void;
 }
@@ -31,38 +28,29 @@ const SplitText: React.FC<SplitTextProps> = ({
   splitType = "chars",
   from = { opacity: 0, y: 40 },
   to = { opacity: 1, y: 0 },
-  threshold = 0.1,
-  rootMargin = "-100px",
   textAlign = "center",
   onLetterAnimationComplete,
 }) => {
   const ref = useRef<HTMLParagraphElement>(null);
-  const animationCompletedRef = useRef(false);
-  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !ref.current || !text) return;
+    if (!ref.current || typeof window === "undefined") return;
 
     const el = ref.current;
-
-    animationCompletedRef.current = false;
-
-    const absoluteLines = splitType === "lines";
-    if (absoluteLines) el.style.position = "relative";
 
     let splitter: GSAPSplitText;
     try {
       splitter = new GSAPSplitText(el, {
         type: splitType,
-        absolute: absoluteLines,
         linesClass: "split-line",
       });
     } catch (error) {
-      console.error("Failed to create SplitText:", error);
+      console.error("SplitText error:", error);
+      el.style.opacity = "1"; // Fallback: just show the text
       return;
     }
 
-    let targets: Element[];
+    let targets: Element[] = [];
     switch (splitType) {
       case "lines":
         targets = splitter.lines;
@@ -71,85 +59,43 @@ const SplitText: React.FC<SplitTextProps> = ({
         targets = splitter.words;
         break;
       case "chars":
-        targets = splitter.chars;
-        break;
       default:
         targets = splitter.chars;
     }
 
     if (!targets || targets.length === 0) {
-      console.warn("No targets found for SplitText animation");
+      console.warn("No targets found for animation");
+      el.style.opacity = "1";
       splitter.revert();
       return;
     }
 
-    targets.forEach((t) => {
-      (t as HTMLElement).style.willChange = "transform, opacity";
-    });
-
-    const startPct = (1 - threshold) * 100;
-    const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(rootMargin);
-    const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
-    const marginUnit = marginMatch ? (marginMatch[2] || "px") : "px";
-    const sign = marginValue < 0 ? `-=${Math.abs(marginValue)}${marginUnit}` : `+=${marginValue}${marginUnit}`;
-    const start = `top ${startPct}%${sign}`;
+    gsap.set(el, { opacity: 1 }); // Show container
+    gsap.set(targets, { ...from, immediateRender: false });
 
     const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start,
-        toggleActions: "play none none none",
-        once: true,
-        onToggle: (self) => {
-          scrollTriggerRef.current = self;
-        },
-      },
-      smoothChildTiming: true,
       onComplete: () => {
-        animationCompletedRef.current = true;
         gsap.set(targets, {
           ...to,
           clearProps: "willChange",
-          immediateRender: true,
         });
         onLetterAnimationComplete?.();
       },
     });
 
-    // 👇 Fix: Hide text initially and only show when animation starts
-    tl.set(el, { opacity: 1 }); // reveal container
-    tl.set(targets, { ...from, immediateRender: false, force3D: true });
     tl.to(targets, {
       ...to,
       duration,
       ease,
       stagger: delay / 1000,
-      force3D: true,
     });
 
     return () => {
       tl.kill();
-      if (scrollTriggerRef.current) {
-        scrollTriggerRef.current.kill();
-        scrollTriggerRef.current = null;
-      }
       gsap.killTweensOf(targets);
-      if (splitter) {
-        splitter.revert();
-      }
+      splitter.revert();
     };
-  }, [
-    text,
-    delay,
-    duration,
-    ease,
-    splitType,
-    from,
-    to,
-    threshold,
-    rootMargin,
-    onLetterAnimationComplete,
-  ]);
+  }, [text, delay, duration, ease, splitType, from, to, onLetterAnimationComplete]);
 
   return (
     <p
@@ -161,10 +107,11 @@ const SplitText: React.FC<SplitTextProps> = ({
         display: "inline-block",
         whiteSpace: "normal",
         wordWrap: "break-word",
-        opacity: 0, // 👈 hide initially
+        opacity: 0, // hidden before animation
       }}
     >
-      {text}<span className="text-[5vw] lg:text-6xl">®</span>
+      {text}
+      <span className="text-[5vw] lg:text-6xl">®</span>
     </p>
   );
 };

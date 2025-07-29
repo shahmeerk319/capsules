@@ -1,9 +1,9 @@
-import SectionOne from "@/components/section-one/section-one";
+import Page from "@/components/section-one/section-one";
 
 export default function Home() {
   return (
     <>
-      <SectionOne />
+      <Page />
     </>
   );
 }
